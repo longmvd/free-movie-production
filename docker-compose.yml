@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:alpine
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - '80:80'
+    depends_on:
+      - free-movie-fe
+      - free-movie-be
+
+  free-movie-fe:
+    image: giadienanhkysi/free-movie-fe
+    # build:
+    #   context: ../free-movie-fe
+    #   dockerfile: Dockerfile
+    expose:
+      - 3000
+    depends_on:
+      - free-movie-be
+
+  free-movie-be:
+    image: giadienanhkysi/free-movie-be
+    # build:
+    #   context: ../free-movie-be/FreeMovie
+    #   dockerfile: Dockerfile
+    expose:
+      - 8080
+  db:
+    image: mysql:8.0.31
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD} # Change the root password here
+    ports:
+      - "3309:3306"
+    restart: on-failure
+    volumes:
+      - db-data:/var/lib/mysql
+volumes:
+  db-data:
