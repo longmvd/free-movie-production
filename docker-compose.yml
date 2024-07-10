@@ -13,6 +13,7 @@ services:
 
   free-movie-fe:
     image: giadienanhkysi/free-movie-fe
+    restart: on-failure
     # build:
     #   context: ../free-movie-fe
     #   dockerfile: Dockerfile
@@ -23,6 +24,15 @@ services:
 
   free-movie-be:
     image: giadienanhkysi/free-movie-be
+    restart: on-failure
+    # build:
+    #   context: ../free-movie-be/FreeMovie
+    #   dockerfile: Dockerfile
+    expose:
+      - 8080
+  worker-services:
+    image: giadienanhkysi/worker-service
+    restart: on-failure
     # build:
     #   context: ../free-movie-be/FreeMovie
     #   dockerfile: Dockerfile
